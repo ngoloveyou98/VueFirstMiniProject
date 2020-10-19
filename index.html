@@ -14,8 +14,9 @@
             <img src="img/chibi.png" alt="" style="height: 500px; width: 100%">
 
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;">
-
+                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;"
+                :style="{width: healthPlayer + '%'}" >
+                    {{ healthPlayer}}
                 </div>
             </div>
         </div>
@@ -24,34 +25,50 @@
             <img src="img/monster.png" alt="" style="height: 500px; width: 100%">
             
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;">
-
+                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;"
+                :style="{width: healthMonster + '%'}">
+                    {{ healthMonster }}
                 </div>
             </div>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-if="!gameIsRuning">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" 
+                @click="startNewGame">
+                START NEW GAME
+            </button>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-else="">
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="attack" @click="attack">ATTACK</button>
+            <button id="special-attack" 
+                @click="specialAttack">
+                SPECIAL ATTACK ({{ numOfspecialAttack }})
+            </button>
+            <button id="heal" 
+                @click="heal">
+                HEAL ({{numHealth  }})
+            </button>
+            <button id="give-up" 
+                @click="giveUp">
+                GIVE UP
+            </button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="turn.length > 0">
         <div class="small-12 columns">
-            <ul>
-                <li>
-
+            <ul v-for="turn in turn">
+                <li :class="{'player-turn': turn.isplayer,'monster-turn': !turn.isplayer}">
+                    {{ turn.textLog }}
                 </li>
+                
             </ul>
         </div>
     </section>
 </div>
+
+<script src="js/app.js"></script>
 </body>
 </html>
